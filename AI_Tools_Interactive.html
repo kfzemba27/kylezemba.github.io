@@ -1,0 +1,1990 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The AI Stack - Tools for Advertising &amp; Marketing</title>
+<meta name="description" content="A curated, practitioner-voiced reference for AI tools used in advertising and marketing. Built by Kyle Zemba." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #070B12;
+  --surface: rgba(18, 25, 36, 0.86);
+  --surface-2: rgba(35, 45, 60, 0.92);
+  --surface-3: rgba(11, 17, 27, 0.72);
+  --border: rgba(120, 144, 180, 0.24);
+  --text: #E6EDF3;
+  --text-muted: #A8B3C4;
+  --text-dim: #6F7B8D;
+  --accent: #818CF8;
+  --cyan: #38BDF8;
+  --green: #2DD4BF;
+  --pink: #F472B6;
+  --gold: #FACC15;
+  --watchlist: #6B7280;
+  --max-w: 1400px;
+  --shadow: 0 24px 90px rgba(0, 0, 0, 0.34);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at 12% 4%, rgba(129, 140, 248, 0.22), transparent 28rem),
+    radial-gradient(circle at 88% 12%, rgba(56, 189, 248, 0.16), transparent 30rem),
+    linear-gradient(180deg, #05070C 0%, var(--bg) 44%, #090D15 100%);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  isolation: isolate;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent 72%);
+}
+
+.particle-field {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.72;
+  mix-blend-mode: screen;
+}
+
+.nav,
+.hero,
+section,
+main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ------- NAV ------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-brand {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: var(--text);
+}
+.nav-brand span { color: var(--text-muted); font-weight: 400; margin-left: 8px; }
+.nav-links {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-link {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 6px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: color 120ms ease, background 120ms ease;
+  border: none;
+  background: transparent;
+}
+.nav-link:hover { color: var(--text); background: var(--surface); }
+.nav-link.active { color: var(--text); background: var(--surface-2); }
+
+/* ------- LAYOUT ------- */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+section:last-of-type { border-bottom: none; }
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+.section-sub {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 36px;
+  max-width: 640px;
+}
+
+/* ------- HERO ------- */
+.hero {
+  min-height: calc(100vh - 58px);
+  padding: 104px 0 92px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(90deg, rgba(7, 11, 18, 0.9) 0%, rgba(10, 20, 35, 0.78) 44%, rgba(6, 11, 19, 0.4) 100%),
+    radial-gradient(circle at 16% 48%, rgba(56, 189, 248, 0.22), transparent 34rem),
+    radial-gradient(circle at 72% 38%, rgba(129, 140, 248, 0.12), transparent 30rem);
+}
+.hero::before {
+  content: 'The AI Stack';
+  position: absolute;
+  left: clamp(18px, 4vw, 54px);
+  top: -42px;
+  font-size: clamp(86px, 15vw, 230px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  color: rgba(255,255,255,0.035);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(56,189,248,0.7), rgba(129,140,248,0.72), transparent);
+}
+.hero-shell {
+  width: 100%;
+  display: block;
+}
+.hero-copy {
+  width: min(760px, 100%);
+  min-width: 0;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 18px;
+}
+.hero-title {
+  font-size: clamp(54px, 9vw, 118px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+  margin-bottom: 28px;
+  max-width: 820px;
+}
+.hero-title em {
+  font-style: normal;
+  background: linear-gradient(90deg, #B6E7FF, #93C5FD 48%, #C4B5FD 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero-sub {
+  font-size: clamp(17px, 1.5vw, 21px);
+  color: var(--text-muted);
+  max-width: 720px;
+  line-height: 1.6;
+}
+.hero-meta {
+  margin-top: 36px;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+  max-width: 660px;
+}
+.hero-meta span { color: var(--text-muted); }
+.hero-visual,
+.context-visual {
+  position: relative;
+  border: 1px solid rgba(125, 154, 196, 0.36);
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.88), rgba(6, 10, 18, 0.96));
+  border-radius: 14px;
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+.hero-visual::before,
+.context-visual::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 16% 0%, rgba(129,140,248,0.32), transparent 28%),
+    radial-gradient(circle at 88% 60%, rgba(45,212,191,0.18), transparent 34%);
+}
+.hero-visual img,
+.context-visual img {
+  display: block;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+}
+.hero-visual {
+  padding: 10px;
+}
+.hero-visual img {
+  aspect-ratio: 1672 / 941;
+  border-radius: 9px;
+}
+
+/* ------- PHILOSOPHY ------- */
+.philosophy {
+  padding: 84px 0;
+  border-bottom: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(56, 189, 248, 0.045), transparent 36%),
+    radial-gradient(circle at 88% 50%, rgba(244, 114, 182, 0.08), transparent 28rem);
+}
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  gap: 38px;
+  align-items: start;
+}
+.philosophy-inner {
+  max-width: 780px;
+}
+.philosophy-body p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+.philosophy-body p:last-child { margin-bottom: 0; }
+.philosophy-body p.lead {
+  font-size: 21px;
+  color: var(--text);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.philosophy-concepts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+.concept-card {
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+  padding: 16px;
+  min-height: 136px;
+}
+.concept-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.concept-title {
+  font-size: 17px;
+  font-weight: 650;
+  margin-bottom: 8px;
+}
+.concept-copy {
+  color: var(--text-muted);
+  line-height: 1.5;
+  font-size: 13.5px;
+}
+.context-visual { padding: 10px; }
+.context-visual img {
+  aspect-ratio: 3 / 2;
+  border-radius: 10px;
+}
+
+/* ------- ECOSYSTEM MAP ------- */
+.ecosystem {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 56px;
+}
+.eco-block {
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--cat-accent) 14%, transparent), rgba(10, 15, 24, 0.86));
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 48%, var(--border));
+  border-radius: 10px;
+  padding: 16px 18px;
+  min-height: 100px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 16px 42px rgba(0,0,0,0.22);
+}
+.eco-block.span-2 { grid-column: span 2; }
+.eco-block.span-3 { grid-column: span 3; }
+.eco-block.watchlist {
+  border-style: dashed;
+  border-color: var(--watchlist);
+}
+.eco-block-header {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.eco-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.eco-pill {
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text);
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 36%, transparent);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+.eco-pill:hover {
+  background: color-mix(in srgb, var(--cat-accent) 16%, transparent);
+  border-color: color-mix(in srgb, var(--cat-accent) 72%, transparent);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.eco-pill .pill-logo {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--bg);
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  font-size: 9px; font-weight: 700; color: var(--text);
+}
+.eco-pill .pill-logo img { width: 100%; height: 100%; object-fit: contain; padding: 2px; }
+.eco-pill .pill-logo img[data-kind="clearbit"] { padding: 0; object-fit: cover; }
+.eco-pill .star { color: var(--cat-accent); margin-left: 1px; font-size: 9.5px; }
+.eco-pill .sub-count {
+  margin-left: 2px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cat-accent) 18%, transparent);
+  color: var(--cat-accent);
+  font-size: 10px;
+  font-weight: 800;
+}
+.eco-foot {
+  margin-top: 16px;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+/* ------- WORKFLOW DIAGRAM ------- */
+.workflow {
+  background:
+    radial-gradient(circle at 16% 0%, rgba(45, 212, 191, 0.12), transparent 36%),
+    linear-gradient(145deg, rgba(18, 25, 36, 0.92), rgba(8, 12, 20, 0.9));
+  border: 1px solid rgba(120, 144, 180, 0.26);
+  border-radius: 14px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow);
+}
+.workflow-header {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.workflow-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 24px;
+}
+.workflow-stages {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  position: relative;
+}
+.stage {
+  background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025));
+  border: 1px solid color-mix(in srgb, var(--stage-accent) 42%, var(--border));
+  border-radius: 10px;
+  padding: 18px 16px;
+  position: relative;
+}
+.stage-num {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.stage-name {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.stage-name .dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.stage-tools {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.stage:not(:last-child)::after {
+  content: '\2192';
+  position: absolute;
+  right: -11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  font-size: 14px;
+  z-index: 2;
+}
+
+.workflow-video {
+  margin-top: 28px;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.workflow-video video {
+  width: 100%;
+  display: block;
+  max-height: 540px;
+}
+.workflow-video-caption {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+
+/* ------- TWO-PANEL CATEGORY SECTION ------- */
+.category-section {
+  scroll-margin-top: 80px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 0% 16%, color-mix(in srgb, var(--cat-accent) 12%, transparent), transparent 28rem),
+    linear-gradient(180deg, transparent, rgba(255,255,255,0.014));
+}
+.category-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cat-accent) 34%, transparent), transparent 26%);
+  opacity: 0.16;
+}
+.category-section > .container { position: relative; z-index: 1; }
+.category-section .section-eyebrow { color: var(--cat-accent); }
+.category-section .section-eyebrow .count { color: var(--text-dim); margin-left: 8px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+
+.two-panel {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 30%, var(--border));
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--cat-accent) 8%, transparent), rgba(14, 20, 31, 0.94));
+  overflow: hidden;
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.tool-card {
+  padding: 32px 32px 36px;
+  border-right: 1px solid color-mix(in srgb, var(--cat-accent) 20%, var(--border));
+  min-height: 0;
+}
+.tool-list {
+  padding: 12px;
+  background: rgba(3, 7, 13, 0.54);
+  max-height: 700px;
+  overflow-y: auto;
+}
+.tool-list::-webkit-scrollbar { width: 8px; }
+.tool-list::-webkit-scrollbar-track { background: transparent; }
+.tool-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* tool list item */
+.tool-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+  margin-bottom: 4px;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  color: var(--text);
+}
+.tool-item:hover {
+  background: var(--surface);
+  transform: translateX(2px);
+}
+.tool-item.active {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cat-accent) 14%, transparent), rgba(255,255,255,0.018));
+  border-color: var(--cat-accent);
+  box-shadow: inset 3px 0 0 var(--cat-accent);
+}
+.tool-item.active .tool-item-name { color: var(--cat-accent); }
+.tool-item-group { margin-bottom: 4px; }
+.tool-item-group > .tool-item { margin-bottom: 0; }
+.tool-child-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  color: var(--cat-accent);
+  font-size: 11px;
+  font-weight: 650;
+}
+.tool-child-cue::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--cat-accent);
+  box-shadow: 0 0 10px var(--cat-accent);
+}
+.tool-subtools {
+  display: none;
+  margin: 4px 0 8px 46px;
+  padding-left: 12px;
+  border-left: 1px solid color-mix(in srgb, var(--cat-accent) 42%, var(--border));
+}
+.tool-item-group.is-open .tool-subtools { display: block; }
+.tool-subitem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 22%, transparent);
+  background: color-mix(in srgb, var(--cat-accent) 8%, transparent);
+  color: var(--text);
+  text-align: left;
+}
+.tool-subitem.active {
+  border-color: var(--cat-accent);
+  background: color-mix(in srgb, var(--cat-accent) 16%, transparent);
+}
+.tool-subitem .tool-item-logo {
+  width: 22px;
+  height: 22px;
+}
+.tool-subitem-name {
+  font-size: 12.5px;
+  font-weight: 650;
+}
+
+.tool-item-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  overflow: hidden;
+  position: relative;
+}
+.tool-item-logo img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
+.tool-item-logo img[data-kind="custom"] { padding: 2px; object-fit: contain; }
+.tool-item-logo img[data-kind="clearbit"] { padding: 0; object-fit: cover; }
+.tool-item-logo.logo-monogram { background: var(--surface-2); color: var(--text); font-weight: 700; }
+.tool-item-text { min-width: 0; flex: 1; }
+.tool-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.tool-item-name .star { color: var(--cat-accent); margin-left: 4px; font-size: 11px; }
+.tool-item-name .parent {
+  margin-left: 6px;
+  font-size: 10.5px;
+  color: var(--text-dim);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.tool-item-tagline {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* expanded card */
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.card-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.025));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 36%, var(--border));
+  position: relative;
+}
+.card-logo img { width: 100%; height: 100%; object-fit: contain; padding: 11px; }
+.card-logo img[data-kind="custom"] { padding: 6px; object-fit: contain; }
+.card-logo img[data-kind="clearbit"] { padding: 0; object-fit: cover; }
+.card-logo.logo-monogram::after {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: 8px;
+  border: 1px solid var(--cat-accent);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.card-name {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.card-name .star { color: var(--cat-accent); margin-left: 6px; font-size: 18px; vertical-align: middle; }
+.card-company {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+.card-company .parent { color: var(--text-dim); }
+.card-tagline {
+  font-size: 16px;
+  color: var(--text);
+  margin: 16px 0 28px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  border-left: 2px solid var(--cat-accent);
+  padding-left: 14px;
+  text-shadow: 0 0 28px color-mix(in srgb, var(--cat-accent) 32%, transparent);
+}
+
+.card-section { margin-bottom: 10px; }
+.card-section-collapsible {
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 22%, var(--border));
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+  overflow: hidden;
+}
+.card-section-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 11px 14px;
+  cursor: pointer;
+  list-style: none;
+  transition: background 120ms ease;
+}
+.card-section-summary:hover { background: color-mix(in srgb, var(--cat-accent) 8%, transparent); }
+.card-section-summary::-webkit-details-marker { display: none; }
+.card-section-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cat-accent);
+  margin-bottom: 8px;
+}
+.card-section-summary .card-section-label {
+  margin-bottom: 0;
+  flex: 1;
+}
+.card-section-meta {
+  color: var(--text-dim);
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.card-section-toggle {
+  width: 18px;
+  height: 18px;
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 34%, var(--border));
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cat-accent);
+  font-size: 13px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.card-section-toggle::before { content: '+'; }
+.card-section[open] .card-section-toggle::before { content: '-'; }
+.card-section-content {
+  padding: 0 14px 14px;
+  border-top: 1px solid color-mix(in srgb, var(--cat-accent) 18%, var(--border));
+}
+.card-section-body {
+  font-size: 14.5px;
+  color: var(--text);
+  line-height: 1.55;
+  padding-top: 12px;
+}
+.card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.card-list li {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+  padding: 6px 0 6px 18px;
+  position: relative;
+}
+.card-list li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 14px;
+  width: 6px;
+  height: 1px;
+  background: var(--cat-accent);
+}
+.card-best ul li,
+.card-howto ul li,
+.card-pros ul li,
+.card-cons ul li,
+.card-highlights ul li { padding-left: 20px; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.card-grid .card-section { margin-bottom: 0; }
+.paired-card-grid {
+  position: relative;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 32%, var(--border));
+  border-radius: 12px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--cat-accent) 8%, transparent), rgba(255,255,255,0.018));
+}
+.paired-card-grid::before {
+  content: 'linked: pros and cons open together';
+  position: absolute;
+  right: 14px;
+  top: -9px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 35%, var(--border));
+  color: var(--text-muted);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.card-pricing {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid color-mix(in srgb, var(--cat-accent) 22%, var(--border));
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 28px;
+  padding: 11px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 8px;
+  background: var(--cat-accent);
+  color: #0D1117;
+  border: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+  box-shadow: 0 16px 38px color-mix(in srgb, var(--cat-accent) 28%, transparent);
+}
+.card-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+.card-cta::after { content: '\2192'; font-size: 14px; }
+
+/* cross-ref tool card */
+.tool-card.crossref { display: flex; flex-direction: column; }
+.tool-card.crossref .crossref-body {
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  padding: 24px 28px;
+  background: var(--bg);
+  margin-top: 24px;
+}
+.tool-card.crossref .crossref-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+}
+.tool-card.crossref .crossref-body p {
+  font-size: 14.5px;
+  color: var(--text);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+/* ------- WATCH LIST ------- */
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.watch-card {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  padding: 22px 22px 24px;
+  display: flex;
+  flex-direction: column;
+}
+.watch-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.watch-card-logo {
+  width: 36px; height: 36px; border-radius: 6px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: var(--text);
+  overflow: hidden; flex-shrink: 0;
+}
+.watch-card-logo img { width: 100%; height: 100%; object-fit: contain; padding: 7px; }
+.watch-card-logo img[data-kind="clearbit"] { padding: 0; object-fit: cover; }
+
+/* Favicon tier: small color logos with light background so they read on dark bg */
+.tool-item-logo img[data-kind="favicon"], .pill-logo img[data-kind="favicon"] { padding: 3px; object-fit: contain; background: var(--text); }
+.pill-logo img[data-kind="custom"] { padding: 1px; object-fit: contain; }
+.card-logo img[data-kind="favicon"], .watch-card-logo img[data-kind="favicon"] { padding: 8px; object-fit: contain; background: var(--text); }
+.watch-card-name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.watch-card-company { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+.watch-card-status {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--watchlist);
+  margin-bottom: 10px;
+}
+.watch-card-body {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+.watch-card-link {
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.watch-card-link a { color: var(--text); }
+.watch-card-link a:hover { color: var(--watchlist); }
+
+/* ------- FOOTER ------- */
+.footer {
+  padding: 40px 0 60px;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+}
+.footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer a { color: var(--text-muted); }
+.footer a:hover { color: var(--text); }
+
+/* ------- RESPONSIVE ------- */
+@media (max-width: 960px) {
+  .hero-shell,
+  .philosophy-grid { grid-template-columns: 1fr; }
+  .hero-visual,
+  .context-visual { margin-top: 10px; }
+  .philosophy-concepts { grid-template-columns: 1fr; }
+  .ecosystem { grid-template-columns: repeat(2, 1fr); }
+  .eco-block.span-2, .eco-block.span-3 { grid-column: span 2; }
+  .workflow-stages { grid-template-columns: 1fr 1fr; }
+  .stage:not(:last-child)::after { display: none; }
+  .two-panel { grid-template-columns: 1fr; }
+  .tool-card { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 24px 32px; min-height: 0; }
+  .tool-list {
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    order: -1;
+    border-bottom: 1px solid var(--border);
+  }
+  .tool-item {
+    flex-direction: column;
+    min-width: 160px;
+    margin-bottom: 0;
+    padding: 10px 12px;
+  }
+  .tool-item-tagline { display: none; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 18px; }
+  .nav-inner { padding: 12px 18px; gap: 12px; }
+  .nav-brand { font-size: 13px; }
+  .nav-brand span { display: none; }
+  .hero-shell,
+  .philosophy-grid { gap: 22px; }
+  .hero-visual,
+  .context-visual { padding: 6px; border-radius: 10px; }
+  .ecosystem { grid-template-columns: 1fr; }
+  .eco-block.span-2, .eco-block.span-3 { grid-column: span 1; }
+  .workflow-stages { grid-template-columns: 1fr; }
+  .workflow { padding: 22px; }
+  section { padding: 56px 0; }
+  .hero { padding: 80px 0 56px; }
+}
+</style>
+</head>
+<body>
+<canvas class="particle-field" id="particle-field" aria-hidden="true"></canvas>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">The AI Stack <span>Tools for Advertising &amp; Marketing</span></div>
+    <div class="nav-links" role="navigation" aria-label="Sections"></div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="container hero-shell">
+    <div class="hero-copy">
+      <div class="hero-eyebrow">AI tools reference &middot; April 2026</div>
+      <h1 class="hero-title">The AI Stack <em>for advertising &amp; marketing</em></h1>
+      <p class="hero-sub">A practical map for choosing the right AI tool before the work starts. Compare categories, open each card for concise agency-focused guidance, and use the stack to build smarter research, concepts, visuals, content, and workflow prototypes.</p>
+      <div class="hero-meta">By <span>Kyle Zemba</span> &middot; Link To VR &middot; MBA candidate, Western New England University &middot; <span>&#9733; tools marked with a star are ones I have direct hands-on experience with</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="philosophy" id="philosophy">
+  <div class="container philosophy-grid">
+    <div class="philosophy-inner">
+      <div class="section-eyebrow" style="color: var(--text-muted);">A note before the tools</div>
+      <div class="section-title" style="margin-bottom: 20px;">Better context creates better work.</div>
+      <div class="philosophy-body">
+        <p class="lead">AI is not a replacement for strategy. It is a multiplier for clear direction.</p>
+        <p>For advertising and marketing work, the advantage comes from the thinking before the output: the audience, the job to be done, the channel, the brand boundaries, and the creative standard you are trying to reach.</p>
+      </div>
+      <div class="philosophy-concepts">
+        <div class="concept-card">
+          <div class="concept-kicker">01</div>
+          <div class="concept-title">Context first</div>
+          <div class="concept-copy">Give the tool the same setup you would give a strategist or creative partner: brand, audience, references, tone, mandatories, and what is off-limits.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-kicker">02</div>
+          <div class="concept-title">Clarify before making</div>
+          <div class="concept-copy">Ask the model to restate the assignment and identify gaps before it produces work. Misalignment is cheaper to fix before the first draft.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-kicker">03</div>
+          <div class="concept-title">Connect the tools</div>
+          <div class="concept-copy">Strong workflows move across text, image, video, audio, and design. One tool rarely owns the full job; the strategy decides the handoff.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-kicker">04</div>
+          <div class="concept-title">Iterate with memory</div>
+          <div class="concept-copy">Treat AI work as an evolving collaboration. Reuse brand context, refine based on feedback, and build from what the tool has already learned.</div>
+        </div>
+      </div>
+    </div>
+    <figure class="context-visual">
+      <img src="Context/Wireframe/ChatGPT Image May 5, 2026, 05_47_22 PM.png" alt="Better context produces better AI answers chart" />
+    </figure>
+  </div>
+</section>
+
+<section id="ecosystem-map">
+  <div class="container">
+    <div class="section-eyebrow" style="color: var(--text-muted);">The map</div>
+    <div class="section-title">The full landscape, at a glance</div>
+    <p class="section-sub">Ten categories, thirty-plus tools, color-coded by function. Click any pill to jump straight to that tool's full card.</p>
+    <div class="ecosystem"></div>
+
+    <div class="workflow">
+      <div class="workflow-header">An example workflow</div>
+      <div class="workflow-title">From research to delivery, on a real project</div>
+      <div class="workflow-stages">
+        <div class="stage" style="--stage-accent: #818CF8;">
+          <div class="stage-num">01 &middot; Research</div>
+          <div class="stage-name"><span class="dot" style="background:#818CF8;"></span>Claude</div>
+          <div class="stage-tools">Tool landscape mapping. Which models are available, what they cost, which use cases each one fits.</div>
+        </div>
+        <div class="stage" style="--stage-accent: #818CF8;">
+          <div class="stage-num">02 &middot; Strategize</div>
+          <div class="stage-name"><span class="dot" style="background:#818CF8;"></span>ChatGPT</div>
+          <div class="stage-tools">Creative concept development and storyboard. Multiple directions before committing.</div>
+        </div>
+        <div class="stage" style="--stage-accent: #94A3B8;">
+          <div class="stage-num">03 &middot; Plan</div>
+          <div class="stage-name"><span class="dot" style="background:#94A3B8;"></span>ChatGPT Pro + Claude Cowork</div>
+          <div class="stage-tools">Organized shot list with image and video prompts, timestamps, and model assignment per shot.</div>
+        </div>
+        <div class="stage" style="--stage-accent: #2DD4BF;">
+          <div class="stage-num">04 &middot; Deliver</div>
+          <div class="stage-name"><span class="dot" style="background:#2DD4BF;"></span>Higgsfield (hub)</div>
+          <div class="stage-tools">Higgsfield as the central generation hub, with Seedance 2.0, Nano Banana, Kling, and ElevenLabs feeding in.</div>
+        </div>
+      </div>
+      <div class="workflow-video">
+        <video controls preload="metadata" poster="Context/Video/Western Nerf Fight Poster.jpg">
+          <source src="Context/Video/Western Nerf Fight.mp4" type="video/mp4" />
+          Your browser does not support embedded video.
+        </video>
+      </div>
+      <div class="workflow-video-caption">Western Nerf Fight &middot; AI-generated short film built using the workflow above. Produced in under a day.</div>
+    </div>
+  </div>
+</section>
+
+<main id="sections"></main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>The AI Stack &middot; A living reference. Last updated April 2026.</div>
+    <div>Built by Kyle Zemba &middot; assembled in Claude Cowork</div>
+  </div>
+</footer>
+
+<script>
+window.__AI_TOOLS_DATA__ = (function () {
+  const pricing = 'Check current plans before client recommendation; most tools use monthly subscriptions, credits, or seat-based tiers.';
+  function mk(name, company, domain, tagline, opts) {
+    opts = opts || {};
+    const agencyUse = opts.agencyUse || tagline.charAt(0).toLowerCase() + tagline.slice(1).replace(/[.!?]+$/, '');
+    return Object.assign({
+      name, company, domain, tagline,
+      whatItIs: opts.whatItIs || name + ' is an AI tool to evaluate for advertising and marketing work where the assignment calls for ' + agencyUse + '.',
+      bestFor: opts.bestFor || ['Exploring campaign, content, or workflow ideas where ' + agencyUse + '.', 'Pressure-testing whether the tool belongs in a real client workflow before building around it.'],
+      pros: opts.pros || ['Useful when the brief is specific and the team has a clear role for the output.', 'Can speed up early exploration before a strategist, creative, or producer makes final decisions.'],
+      cons: opts.cons || ['Outputs still require human judgment, brand review, and factual verification.', 'Plan limits, credits, or workflow friction should be checked before recommending it as a default team tool.'],
+      howToUse: opts.howToUse || ['Start with the client, audience, channel, and desired output before using the tool.', 'Treat the first result as a draft direction, then refine with tighter constraints and references.'],
+      highlights: opts.highlights || ['Good fit for focused agency experimentation', 'Best results come from strong context and clear creative direction'],
+      pricing: opts.pricing || pricing,
+      url: opts.url || ('https://' + domain)
+    }, opts.extra || {});
+  }
+  const cats = [
+    { id:'llms', label:'LLMs / Thinking Tools', accent:'#818CF8', shortNav:'Thinking', tools:[
+      mk('Claude','Anthropic','claude.ai','Reliable long-form strategy, synthesis, and brand voice work.',{extra:{experienced:true,logoSlug:'claude'},whatItIs:'Claude is a conversational AI tool best suited to long-form writing, document analysis, and strategic reasoning. In an agency setting, it is strongest when you give it full context: the brief, audience, competitive frame, tone, and constraints.',bestFor:['Writing brand strategy, creative briefs, messaging frameworks, and POV documents.','Reviewing long PDFs, research reports, competitor language, and brand guidelines without losing the thread.'],pros:['Produces polished strategic writing that usually needs less cleanup than faster generalist tools.','Handles long context well, which helps when a brief, source material, and draft all need to live in one conversation.'],cons:['Not a visual, audio, or video production tool.','Live web research depends on the plan and setup, so verify current claims before client use.'],howToUse:['Start with the full assignment, then ask Claude to identify gaps before drafting.','Use Projects for recurring client context so every session starts with the same brand memory.'],highlights:['Strong long-context reasoning','Useful for brand voice and document review','Good fit for strategy and copy refinement'],pricing:'Free and paid plans; team and enterprise tiers available.'}),
+      mk('ChatGPT','OpenAI','openai.com','Fast, versatile AI for ideation, research, images, files, and workflow support.',{extra:{experienced:true,logoSlug:'openai'},whatItIs:'ChatGPT is the broadest general AI workspace in the stack. For marketers, it works as a flexible starting point for ideas, quick research, copy drafts, image prompts, file analysis, and lightweight workflow automation.',bestFor:['Rapid first-pass ideas, outlines, copy variations, and campaign territories.','Teams that want one everyday AI workspace across writing, research, images, and files.'],pros:['Very fast for exploration and option generation.','Connects multiple modes in one place: text, images, files, web research, and custom assistants.'],cons:['Outputs can sound generic without strong brand and audience context.','Long strategy documents often need more human editing and structure.'],howToUse:['Use it early to create options, then refine with tighter brand direction.','Build repeatable custom assistants for common agency tasks like brief checks or social copy formatting.'],highlights:['Broadest general toolset','Strong for early ideation','Useful custom GPT workflows'],pricing:'Free and paid ChatGPT plans; business and enterprise options available.'}),
+      mk('GPT-5.5','OpenAI','openai.com','The flagship ChatGPT model for deeper strategy, research, and long-context work.',{extra:{logoSlug:'openai',parentLabel:'via OpenAI',childOf:'ChatGPT'},whatItIs:'GPT-5.5 is a model inside the ChatGPT/OpenAI ecosystem, not a separate everyday app. Treat it as the higher-reasoning option when the assignment needs sustained analysis, deeper synthesis, or larger source material.',bestFor:['Complex strategic questions where the answer needs more reasoning than speed.','API or advanced ChatGPT workflows that require larger context and higher reliability.'],pros:['Better fit for complex research synthesis and multi-step reasoning.','Useful when the work has many constraints that need to stay active at once.'],cons:['May cost more or be limited by plan, depending on where it is accessed.','Still needs a clear brief; a stronger model cannot rescue vague direction.'],howToUse:['Use it from inside ChatGPT when the task deserves deeper reasoning.','Reserve it for work that benefits from careful synthesis, not simple copy variations.'],highlights:['Model-level upgrade inside ChatGPT','Useful for heavier reasoning','Best treated as an advanced sub-tool'],pricing:'Availability and pricing depend on the ChatGPT or API plan.'}),
+      mk('Gemini','Google','gemini.google.com','Search-grounded thinking and Google Workspace alignment.',{extra:{experienced:true,logoSlug:'googlegemini'}}),
+      mk('Perplexity','Perplexity AI','perplexity.ai','Research-first AI with visible source citations.',{extra:{experienced:true,logoSlug:'perplexity'}}),
+      mk('Grok','xAI','x.ai','Social-aware AI with access to X-native conversation signals.',{extra:{logoSlug:'x'}})
+    ]},
+    { id:'imgvid', label:'Image & Video Generation', accent:'#FBBF24', shortNav:'Image & Video', tools:[
+      mk('Midjourney','Midjourney','midjourney.com','Best photorealistic image quality in the market; still cannot render reliable type.',{extra:{experienced:true}}),
+      mk('Flux','Black Forest Labs','blackforestlabs.ai','Flexible image generation with strong prompt adherence.'),
+      mk('ChatGPT','OpenAI','openai.com','OpenAI visual tools for image ideation, reasoning-led generation, and video concepting.',{extra:{logoSlug:'openai',isGroup:true},whatItIs:'In the Image & Video section, ChatGPT is the platform wrapper for OpenAI visual tools. It is useful when a team wants to move from written concept to image prompt to video exploration without switching strategic context.',bestFor:['Early visual territories where the same campaign idea needs still-image and motion versions.','Concepting workflows where copy, image direction, and video prompts need to stay connected.'],pros:['Keeps visual generation close to the strategic brief and written rationale.','Useful parent workflow for DALL-E 3, GPT Image 2, and Sora.'],cons:['The individual tools still have different strengths, limits, and output quality.','Final production requires human art direction, editing, and legal review.'],howToUse:['Start with the campaign idea in ChatGPT, then move into the right sub-tool: DALL-E 3 for quick images, GPT Image 2 for richer image reasoning, or Sora for motion.','Use the parent ChatGPT card as the planning layer before selecting the specific visual model.'],highlights:['Parent platform for OpenAI visual tools','Connects copy, image, and video ideation','Useful for integrated concept development']}),
+      mk('DALL-E 3','OpenAI','openai.com','Reliable image ideation inside the OpenAI ecosystem.',{extra:{logoSlug:'openai',childOf:'ChatGPT'}}),
+      mk('GPT Image 2','OpenAI','openai.com','OpenAI image generation with stronger reasoning from natural language.',{extra:{logoSlug:'openai',parentLabel:'via OpenAI',childOf:'ChatGPT'}}),
+      mk('Runway','Runway','runwayml.com','Video generation and editing for motion concepting.',{extra:{experienced:true}}),
+      mk('Sora','OpenAI','openai.com','OpenAI video generation for cinematic exploration.',{extra:{logoSlug:'openai',childOf:'ChatGPT'}}),
+      mk('Kling','Kuaishou','klingai.com','High-quality AI video for realistic motion tests.',{extra:{experienced:true}}),
+      mk('Seedance','ByteDance','seedance.tv','Fast AI video generation for social-first concepts.',{extra:{experienced:true,logoUrl:'https://www.seedance.tv/imgs/intro/seedance.png'}}),
+      mk('Luma Dream Machine','Luma AI','lumalabs.ai','Image and video generation with strong cinematic motion.'),
+      mk('Pika','Pika','pika.art','Accessible AI video for quick creative experiments.'),
+      mk('Gemini','Google','gemini.google.com','Google visual models for fast image exploration and higher-end video concepting.',{extra:{logoSlug:'googlegemini',isGroup:true},whatItIs:'In the Image & Video section, Gemini is the parent element for Google visual generation tools. It helps frame Nano Banana and Veo 3 as part of one Google-led visual workflow rather than isolated model names.',bestFor:['Comparing lightweight image generation with higher-end video exploration inside the Google ecosystem.','Teams that want Google’s visual models grouped under one planning layer.'],pros:['Makes the Google visual workflow easier to understand at a glance.','Useful parent workflow for Nano Banana and Veo 3.'],cons:['The tools are still separate capabilities with different access points and quality expectations.','Use them for concepting and testing before treating outputs as production assets.'],howToUse:['Use Gemini as the parent planning layer, then choose Nano Banana for quick image exploration or Veo 3 for motion tests.','Compare Google outputs against other video/image models before locking the production path.'],highlights:['Parent platform for Google visual tools','Connects image and video concepting','Useful for model comparison']}),
+      mk('Nano Banana','Google','google.com','A fast image model for lightweight visual generation.',{extra:{experienced:true,logoSlug:'googlegemini',childOf:'Gemini'}}),
+      mk('Veo 3','Google','deepmind.google','Google video generation for higher-end motion exploration.',{extra:{experienced:true,logoSlug:'googlegemini',childOf:'Gemini'}}),
+      mk('ComfyUI','ComfyUI','comfy.org','Node-based image workflow control for technical teams.')
+    ]},
+    { id:'allinone', label:'All-in-One Generative AI', accent:'#2DD4BF', shortNav:'All-in-One', subtitle:'Visual AI is most powerful when it becomes a connected production system: concept the idea, generate the visual territory, add motion, layer sound, and package the story so teams can understand the direction before a full production commitment.', tools:[
+      mk('Higgsfield','Higgsfield','higgsfield.ai','A central hub for turning visual AI experiments into rough campaign proof-of-concepts.',{extra:{experienced:true},whatItIs:'Higgsfield works best as the place where multiple visual tools start to behave like one workflow. For agency teams, the value is not just generating a clip; it is combining image models, video models, camera controls, voice, music, and editing logic into a fast proof-of-concept that can explain an idea internally.',bestFor:['Internal storytelling: turning a strategy, script, or campaign route into a rough video walkthrough that helps teams and clients see the idea.','Visual AI integration: combining stills, motion, model outputs, sound references, and presentation assets into one coherent concept path.'],pros:['Useful because it makes abstract ideas easier to sell. A rough motion piece can create buy-in faster than a written paragraph or static moodboard.','Good fit for testing combinations of tools before deciding what deserves final production budget.'],cons:['If AI is used as a shortcut, it shows. Weak direction, generic prompts, and poor editing make the work feel disposable.','Public-facing use still needs authenticity checks, brand review, legal review, and audience judgment. Internal use can move faster than external use.'],howToUse:['Start with the story, not the model. Define the idea, audience, emotional tone, visual references, and where the proof-of-concept needs to create buy-in.','Use Higgsfield as the hub, then pull in specialist tools where needed: image generation for visual territory, video models for motion, voice or music for tone, and presentation tools for packaging.'],highlights:['Integrated proof-of-concept workflow','Strong for internal storytelling and pitch development','Useful bridge between concepting and production planning']}),
+      mk('Magnific','Magnific','magnific.ai','A visual enhancement layer for making rough AI concepts feel clearer and more presentation-ready.',{extra:{logoSlug:'magnific'},whatItIs:'Magnific is the evolved Freepik creative platform: an AI-first production suite that helps teams generate, enhance, upscale, and refine visual assets. In an integrated workflow, it is the polish layer that can turn rough concept imagery into stronger reference material for decks, prototypes, and internal reviews.',bestFor:['Upgrading rough AI visuals so a campaign route feels more tangible in a pitch or internal review.','Creating a consistent visual territory across several outputs before handing the work to design, production, or post.'],pros:['Strong visual enhancement helps rough AI assets feel more intentional without pretending they are final production.','Useful when a team needs to move from scattered outputs to a more coherent visual world.'],cons:['Better image quality does not equal better strategy. The work still needs taste, art direction, and a clear reason to exist.','Credit usage and packaging can be hard to judge, so teams should reserve heavier enhancement for the assets that matter.'],howToUse:['Generate broadly first, then use Magnific only on the strongest visual routes. The tool should sharpen the story, not hide a weak idea.','Use it before a pitch deck or internal walkthrough to make the selected concept feel easier to understand and discuss.'],highlights:['Visual enhancement and upscaling','Presentation-ready concept imagery','Useful bridge from visual exploration to storytelling']}),
+      mk('Artlist','Artlist','artlist.io','The sound, licensing, and production-feel layer for AI visual concepts.',{whatItIs:'Artlist adds the audio and production wrapper around AI visuals: music, sound, footage, templates, and emerging AI tools. In a visual AI workflow, it helps move a proof-of-concept from silent experiment to something that feels like a real story with pace, tone, and emotion.',bestFor:['Adding music, sound, and production texture to AI-generated visual tests.','Packaging internal films, pitch videos, social mockups, and mood pieces with cleaner licensing and stronger emotional direction.'],pros:['Sound makes visual AI feel more complete. Music, voice, and pacing often decide whether a proof-of-concept feels like an idea or just a demo.','Licensing clarity matters when rough work starts moving closer to client-facing presentation.'],cons:['Audio polish can make weak visual ideas feel more finished than they really are. Keep the strategic critique active.','It is not the central generator; it is the layer that helps the story land.'],howToUse:['Use Artlist after the visual route is selected. Add music and sound design to clarify the mood, audience, and pace of the idea.','For pitches, use licensed references and rough audio beds to help clients feel the direction while making clear what is prototype versus final production.'],highlights:['Music and sound for proof-of-concepts','Licensing support for presentation work','Helps AI visuals become a clearer story']})
+    ]},
+    { id:'spatial', label:'3D & Spatial Generation', accent:'#60A5FA', shortNav:'3D & Spatial', tools:[
+      mk('Fal (PATINA workflow)','Fal','fal.ai','Converts AI-generated images into production-ready 3D material maps.'),
+      mk('Tripo 3D','Tripo','tripo3d.ai','Fast 3D asset generation from text or images.'),
+      mk('World Labs (Marble)','World Labs','worldlabs.ai','Spatial world generation for immersive scene exploration.'),
+      mk('Google Genie','Google DeepMind','deepmind.google','Generates playable or interactive worlds from prompts and images.',{extra:{logoSlug:'googlegemini'}})
+    ]},
+    { id:'audio', label:'Audio & Voice', accent:'#F472B6', shortNav:'Audio', tools:[
+      mk('ElevenLabs','ElevenLabs','elevenlabs.io','High-quality AI voice for narration, prototypes, and localization.'),
+      mk('Suno','Suno','suno.com','AI music generation for quick mood and track exploration.'),
+      mk('Udio','Udio','udio.com','AI music generation with strong style exploration.')
+    ]},
+    { id:'copy', label:'Copy & Content', accent:'#34D399', shortNav:'Copy', tools:[
+      mk('Jasper','Jasper','jasper.ai','Marketing copy platform built for repeatable brand content.'),
+      mk('Copy.ai','Copy.ai','copy.ai','Copy workflows and GTM automation for marketing teams.')
+    ]},
+    { id:'research', label:'Research & Insights', accent:'#A78BFA', shortNav:'Research', tools:[
+      mk('Perplexity Deep Research','Perplexity AI','perplexity.ai','A deeper research mode for source-backed market questions.',{extra:{logoSlug:'perplexity'}}),
+      mk('Gemini','Google','gemini.google.com','Google research tools for source-grounded synthesis and deeper category questions.',{extra:{logoSlug:'googlegemini',isGroup:true},whatItIs:'In Research & Insights, Gemini is the parent element for Google research workflows. It groups NotebookLM and Gemini Deep Research so the user can understand them as related ways to synthesize sources and build category context.',bestFor:['Research workflows built around Google source material, documents, and current category questions.','Teams deciding whether to use a controlled source notebook or broader web-backed research.'],pros:['Clarifies the difference between document-grounded synthesis and broader deep research.','Keeps Google research tools in one visible family.'],cons:['Research outputs still need source review before client use.','Notebook-style synthesis and web research solve different problems, so choose the sub-tool deliberately.'],howToUse:['Open Gemini first to decide the research mode. Use NotebookLM when you already have the source set, and Gemini Deep Research when the question requires broader discovery.','Compare findings against primary sources before putting claims into a deck.'],highlights:['Parent element for Google research tools','Connects NotebookLM and Gemini Deep Research','Useful for source strategy']}),
+      mk('NotebookLM','Google','notebooklm.google','Source-grounded synthesis from documents you provide.',{extra:{logoSlug:'googlegemini',childOf:'Gemini'}}),
+      mk('ChatGPT Deep Research','OpenAI','openai.com','Structured web research inside ChatGPT.',{extra:{logoSlug:'openai'}}),
+      mk('Gemini Deep Research','Google','gemini.google.com','Google-backed deep research for current category questions.',{extra:{logoSlug:'googlegemini',childOf:'Gemini'}})
+    ]},
+    { id:'workflow', label:'Workflow & Productivity', accent:'#94A3B8', shortNav:'Workflow', tools:[
+      mk('GitHub Copilot','GitHub','github.com','AI coding support for technical production teams.',{extra:{logoSlug:'github'}}),
+      mk('Cursor','Cursor','cursor.com','AI-first code editor for building prototypes and tools.'),
+      mk('Claude','Anthropic','claude.ai','Claude workflow tools for coding, collaboration, and structured production work.',{extra:{logoSlug:'claude',isGroup:true},whatItIs:'In Workflow & Productivity, Claude is the parent element for Anthropic’s more specialized work tools. Claude Code and Claude Cowork sit underneath it because both are extensions of Claude’s role as a structured collaborator for complex work.',bestFor:['Teams using Claude for implementation, planning, structured writing, or multi-step production support.','Deciding whether the task needs coding assistance or broader collaborative work support.'],pros:['Keeps Anthropic workflow tools grouped under one clear parent.','Makes the distinction between coding work and collaborative planning easier to scan.'],cons:['These tools are only useful when the task is scoped clearly.','Access and pricing can differ from standard Claude chat plans.'],howToUse:['Open Claude first to decide the work mode. Use Claude Code for codebase tasks and Claude Cowork for planning, writing, or structured collaboration.','Keep the assignment narrow and review outputs before they move into production.'],highlights:['Parent element for Claude workflow tools','Groups Claude Code and Claude Cowork','Useful for technical and strategic production support']}),
+      mk('Claude Code','Anthropic','claude.ai','Agentic coding from Anthropic’s Claude ecosystem.',{extra:{logoSlug:'claude',childOf:'Claude'}}),
+      mk('Claude Cowork','Anthropic','claude.ai','Collaborative AI work sessions for complex tasks.',{extra:{logoSlug:'claude',childOf:'Claude'}}),
+      mk('Replit','Replit','replit.com','Browser-based development with AI support.'),
+      mk('OpenCLAW','OpenCLAW','github.com','Open-source agent framework for persistent workflows.'),
+      mk('NemoCLAW','NVIDIA','nvidia.com','Enterprise safety layer for agent workflows.',{extra:{logoSlug:'nvidia'}})
+    ]},
+    { id:'design', label:'Presentation & Design', accent:'#FBBF24', shortNav:'Design', tools:[
+      mk('Canva AI','Canva','canva.com','Accessible design and presentation AI for non-designers.'),
+      mk('Gamma','Gamma','gamma.app','Fast AI-generated decks and web-style presentations.'),
+      mk('Figma','Figma','figma.com','Collaborative design platform with growing AI support.',{extra:{logoSlug:'figma'}})
+    ]},
+    { id:'marketing', label:'Marketing & CRM AI', accent:'#F87171', shortNav:'Marketing', tools:[
+      mk('Salesforce Einstein','Salesforce','salesforce.com','CRM AI for enterprise sales and service organizations.'),
+      mk('HubSpot Breeze','HubSpot','hubspot.com','HubSpot’s embedded AI for marketing, sales, and service.',{extra:{logoSlug:'hubspot'}}),
+      mk('HeyGen','HeyGen','heygen.com','AI spokesperson video and localization.')
+    ]}
+  ];
+  return {
+    categories: cats,
+    watchlist: [
+      { name:'Mythos', company:'Anthropic', domain:'claude.ai', logoSlug:'claude', status:'Restricted access', body:['Anthropic’s advanced-model work signals how quickly autonomous AI capability is moving. For agencies, the lesson is governance: client organizations need policies before these tools become ordinary.'], url:'https://anthropic.com', linkLabel:'Read more' },
+      { name:'LTX Studio', company:'Lightricks', domain:'ltx.studio', status:'Available', body:['End-to-end AI video production platform for storyboards, shots, characters, and edited output. Worth watching for campaign video workflows.'], url:'https://ltx.studio', linkLabel:'Visit LTX Studio' },
+      { name:'AI Answer Engine Optimization (AEO)', company:'Emerging practice category', domain:'', status:'Emerging discipline', body:['AEO is the practice of making brands visible inside AI answers, not just search results. It is a strategy opportunity for content, authority, and structured information.'], url:'https://hubspot.com', linkLabel:'Learn about AEO' },
+      { name:'Unbound', company:'Unbound', domain:'unboundcontent.ai', status:'Watch with caveats', body:['Lightweight AI content and product imagery tool for e-commerce and small marketing teams. Monitor for DTC and product-content workflows.'], url:'https://unboundcontent.ai', linkLabel:'Visit Unbound' }
+    ],
+    watchlistAccent:'#6B7280'
+  };
+})();
+</script>
+<script>
+(function () {
+  const data = window.__AI_TOOLS_DATA__;
+  if (!data) { console.error('No data found'); return; }
+
+  // ---------- helpers ----------
+  function el(tag, attrs, children) {
+    const node = document.createElement(tag);
+    if (attrs) {
+      for (const [k, v] of Object.entries(attrs)) {
+        if (k === 'class') node.className = v;
+        else if (k === 'html') node.innerHTML = v;
+        else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2).toLowerCase(), v);
+        else if (v != null) node.setAttribute(k, v);
+      }
+    }
+    (children || []).forEach(function (c) {
+      if (c == null) return;
+      node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    });
+    return node;
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function normalizeText(s) {
+    return String(s || '')
+      .replace(/\s+/g, ' ')
+      .replace(/\.{2,}/g, '.')
+      .replace(/\s+([.!?,;:])/g, '$1')
+      .trim();
+  }
+  function finishSentence(s) {
+    const text = normalizeText(s).replace(/[.?!]*\s*\.{2,}\s*$/, '.');
+    if (!text) return text;
+    if (/[.!?][)"']?$/.test(text)) return text;
+    return text + '.';
+  }
+  function truncateText(s, max) {
+    const text = normalizeText(s);
+    if (!max || text.length <= max) return finishSentence(text);
+    const sentence = text.match(/^(.+?[.!?])(?:\s|$)/);
+    if (sentence && sentence[1].length <= max) return finishSentence(sentence[1]);
+    return finishSentence(text);
+  }
+  function firstSentence(s, max) {
+    const text = normalizeText(s);
+    const match = text.match(/^(.+?[.!?])\s/);
+    if (match && match[1].length <= max) return finishSentence(match[1]);
+    return truncateText(text, max);
+  }
+  function conciseList(items, limit, max) {
+    return (items || []).slice(0, limit).map(function (item) { return truncateText(item, max); });
+  }
+  function sectionMeta(kind, originalCount) {
+    if (kind === 'text') return 'quick read';
+    if (kind === 'pricing') return 'summary';
+    return originalCount + (originalCount === 1 ? ' point' : ' points');
+  }
+  function cardSection(label, content, opts) {
+    opts = opts || {};
+    const details = el('details', { class: 'card-section card-section-collapsible' + (opts.className ? ' ' + opts.className : '') });
+    if (opts.open) details.setAttribute('open', '');
+    details.appendChild(el('summary', { class: 'card-section-summary' }, [
+      el('span', { class: 'card-section-label', html: escapeHtml(label) }),
+      el('span', { class: 'card-section-meta', html: escapeHtml(opts.meta || '') }),
+      el('span', { class: 'card-section-toggle', 'aria-hidden': 'true' }),
+    ]));
+    details.appendChild(el('div', { class: 'card-section-content' }, [content]));
+    return details;
+  }
+  function listContent(items) {
+    const ul = el('ul', { class: 'card-list' });
+    items.forEach(function (t) { ul.appendChild(el('li', { html: escapeHtml(t) })); });
+    return ul;
+  }
+  const agencyLens = {
+    llms: 'briefs, positioning, brand voice, and client-ready strategic thinking',
+    imgvid: 'concept boards, campaign visuals, social tests, and pre-production exploration',
+    allinone: 'fast creative exploration when a team needs copy, visuals, and layout ideas in one place',
+    spatial: 'product visualization, virtual production, spatial mockups, and CGI handoff',
+    audio: 'voiceover, sonic identity, multilingual adaptation, and fast audio prototyping',
+    copy: 'content systems, CRM copy, landing-page variations, and campaign support writing',
+    research: 'competitive intelligence, category scans, source checking, and brief development',
+    workflow: 'production workflow, development support, automation, and internal team leverage',
+    design: 'presentation building, design systems, client decks, and quick visual storytelling',
+    marketing: 'CRM, lifecycle marketing, personalization, sales support, and measurable client operations',
+  };
+  function lensFor(cat) {
+    return agencyLens[(cat && cat.id) || ''] || 'brand, creative, media, and client work';
+  }
+  function lowerFirst(s) {
+    const text = normalizeText(s);
+    return text ? text.charAt(0).toLowerCase() + text.slice(1) : text;
+  }
+  function agencyWhatItIs(tool, cat) {
+    return tool.name + ' is useful when the assignment touches ' + lensFor(cat) + '. ' + firstSentence(tool.whatItIs || tool.tagline || '', 165);
+  }
+  function agencyTagline(tool, cat) {
+    const base = tool.tagline || 'Worth considering for the right workflow';
+    return truncateText(base, 130);
+  }
+  function agencyList(items, limit, max, kind) {
+    return (items || []).slice(0, limit).map(function (item) {
+      const text = truncateText(item, max);
+      if (/(agency|client|brand|campaign|creative|brief|media|strategy|team|presentation|social|content|CRM)/i.test(text)) return text;
+      if (kind === 'pro') return finishSentence(text);
+      if (kind === 'con') return finishSentence(text);
+      if (kind === 'highlight') return finishSentence(text);
+      return 'For client work, ' + lowerFirst(text);
+    });
+  }
+  function syncPairedDetails(details, group) {
+    details.setAttribute('data-sync-group', group);
+    details.addEventListener('toggle', function () {
+      if (details.dataset.syncing === 'true') return;
+      document.querySelectorAll('details[data-sync-group="' + group + '"]').forEach(function (other) {
+        if (other === details) return;
+        other.dataset.syncing = 'true';
+        other.open = details.open;
+        other.dataset.syncing = 'false';
+      });
+    });
+    return details;
+  }
+  // Tiered logo resolver: Simple Icons (monochrome) -> Clearbit (color) -> Google favicon -> monogram
+  function logoSources(tool) {
+    const sources = [];
+    if (tool.logoUrl) {
+      sources.push({
+        url: tool.logoUrl,
+        kind: 'custom',
+      });
+    }
+    if (tool.name === 'Claude' || tool.name === 'Claude Code' || tool.name === 'Claude Cowork') {
+      sources.push({
+        url: 'https://cdn.simpleicons.org/claude/E6EDF3',
+        kind: 'simpleicons',
+      });
+    }
+    if (tool.logoSlug) {
+      // Simple Icons CDN, tinted to body text color for editorial monochrome look
+      sources.push({
+        url: 'https://cdn.simpleicons.org/' + encodeURIComponent(tool.logoSlug) + '/E6EDF3',
+        kind: 'simpleicons',
+      });
+    }
+    if (tool.domain) {
+      sources.push({
+        url: 'https://logo.clearbit.com/' + encodeURIComponent(tool.domain) + '?size=128',
+        kind: 'clearbit',
+      });
+      // Google favicon service: reliable, every major site has one. Used as final
+      // network tier before falling back to a letter monogram.
+      sources.push({
+        url: 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(tool.domain) + '&sz=64',
+        kind: 'favicon',
+      });
+    }
+    return sources;
+  }
+
+  function childTools(cat, parentName) {
+    return (cat.tools || []).filter(function (t) { return t.childOf === parentName; });
+  }
+
+  function parentToolName(tool) {
+    return tool && tool.childOf ? tool.childOf : tool.name;
+  }
+  function toolCount(cat) {
+    return (cat.tools || []).filter(function (t) { return !t.isGroup; }).length;
+  }
+  function logoEl(tool, sizeClass) {
+    const wrap = el('div', { class: sizeClass });
+    const sources = logoSources(tool);
+    if (sources.length === 0) {
+      wrap.classList.add('logo-monogram');
+      wrap.appendChild(document.createTextNode(tool.name.charAt(0)));
+      return wrap;
+    }
+    let idx = 0;
+    function tryNext() {
+      while (idx < sources.length) {
+        const s = sources[idx++];
+        const img = document.createElement('img');
+        img.alt = tool.name + ' logo';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.dataset.kind = s.kind;
+        img.onerror = function () {
+          if (img.parentNode === wrap) wrap.removeChild(img);
+          tryNext();
+        };
+        img.src = s.url;
+        wrap.appendChild(img);
+        return;
+      }
+      // all sources failed -> letter monogram
+      wrap.classList.add('logo-monogram');
+      wrap.appendChild(document.createTextNode(tool.name.charAt(0)));
+    }
+    tryNext();
+    return wrap;
+  }
+
+  // ---------- render expanded card ----------
+  function renderExpandedCard(tool, cat) {
+    if (tool.crossref) {
+      // Cross-reference card (for example, Perplexity Deep Research to Perplexity in LLMs)
+      const card = el('div', { class: 'tool-card crossref' });
+      const head = el('div', { class: 'card-head' }, [logoEl(tool, 'card-logo')]);
+      const heading = el('div', null, [
+        el('div', { class: 'card-name', html: escapeHtml(tool.name) }),
+        el('div', { class: 'card-company' }, [
+          document.createTextNode(tool.company),
+          tool.parentLabel ? el('span', { class: 'parent', html: ' &middot; ' + escapeHtml(tool.parentLabel) }) : null,
+        ]),
+      ]);
+      head.appendChild(heading);
+      card.appendChild(head);
+      if (tool.tagline) card.appendChild(el('div', { class: 'card-tagline', html: escapeHtml(tool.tagline) }));
+      const body = el('div', { class: 'crossref-body' });
+      body.appendChild(el('div', { class: 'crossref-label', html: 'Cross-reference &middot; Research framing' }));
+      (tool.framing || []).forEach(function (p) {
+        body.appendChild(el('p', { html: escapeHtml(p) }));
+      });
+      const link = el('a', {
+        class: 'card-cta',
+        href: '#' + tool.crossref.sectionId,
+        onclick: function (e) {
+          e.preventDefault();
+          const target = document.getElementById(tool.crossref.sectionId);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+          // also activate the right tool in that section after scroll
+          setTimeout(function () { activateTool(tool.crossref.sectionId, tool.crossref.toolName); }, 300);
+        },
+      }, [document.createTextNode('See full ' + tool.crossref.toolName + ' card')]);
+      body.appendChild(link);
+      card.appendChild(body);
+      return card;
+    }
+
+    const card = el('div', { class: 'tool-card' });
+
+    // header
+    const head = el('div', { class: 'card-head' }, [logoEl(tool, 'card-logo')]);
+    const heading = el('div', null, [
+      el('div', { class: 'card-name' }, [
+        document.createTextNode(tool.name),
+        tool.experienced ? el('span', { class: 'star', html: '&#9733;', title: 'Direct hands-on experience' }) : null,
+      ]),
+      el('div', { class: 'card-company' }, [
+        document.createTextNode(tool.company),
+        tool.parentLabel ? el('span', { class: 'parent', html: ' &middot; ' + escapeHtml(tool.parentLabel) }) : null,
+      ]),
+    ]);
+    head.appendChild(heading);
+    card.appendChild(head);
+
+    if (tool.tagline) card.appendChild(el('div', { class: 'card-tagline', html: escapeHtml(agencyTagline(tool, cat)) }));
+
+    // Concise, collapsible sections keep each tool scannable while preserving the full page structure.
+    if (tool.whatItIs) {
+      card.appendChild(cardSection(
+        'What it is',
+        el('div', { class: 'card-section-body', html: escapeHtml(agencyWhatItIs(tool, cat)) }),
+        { open: true, meta: sectionMeta('text') }
+      ));
+    }
+
+    if (tool.bestFor && tool.bestFor.length) {
+      const items = agencyList(tool.bestFor, 2, 140, 'best');
+      card.appendChild(cardSection(
+        'Best for',
+        listContent(items),
+        { open: true, meta: sectionMeta('list', items.length) }
+      ));
+    }
+
+    if ((tool.pros && tool.pros.length) || (tool.cons && tool.cons.length)) {
+      const grid = el('div', { class: 'card-grid paired-card-grid' });
+      const syncGroup = 'pros-cons-' + normalizeText((cat && cat.id ? cat.id : 'tool') + '-' + tool.name).replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+      if (tool.pros && tool.pros.length) {
+        const items = agencyList(tool.pros, 2, 132, 'pro');
+        grid.appendChild(syncPairedDetails(cardSection('Pros', listContent(items), { meta: sectionMeta('list', items.length) }), syncGroup));
+      }
+      if (tool.cons && tool.cons.length) {
+        const items = agencyList(tool.cons, 2, 132, 'con');
+        grid.appendChild(syncPairedDetails(cardSection('Cons', listContent(items), { meta: sectionMeta('list', items.length) }), syncGroup));
+      }
+      card.appendChild(grid);
+    }
+
+    if (tool.howToUse && tool.howToUse.length) {
+      const items = agencyList(tool.howToUse, 2, 150, 'how');
+      card.appendChild(cardSection(
+        'How to use it',
+        listContent(items),
+        { meta: sectionMeta('list', items.length) }
+      ));
+    }
+
+    if (tool.highlights && tool.highlights.length) {
+      const items = agencyList(tool.highlights, 3, 120, 'highlight');
+      card.appendChild(cardSection(
+        'Highlight features',
+        listContent(items),
+        { meta: sectionMeta('list', items.length) }
+      ));
+    }
+
+    if (tool.pricing) {
+      card.appendChild(cardSection(
+        'Pricing',
+        el('div', { class: 'card-pricing', html: escapeHtml('Budget note: ' + truncateText(tool.pricing, 160)) }),
+        { meta: sectionMeta('pricing') }
+      ));
+    }
+
+    // CTA
+    if (tool.url) {
+      card.appendChild(el('a', {
+        class: 'card-cta',
+        href: tool.url,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }, [document.createTextNode('Visit ' + tool.name)]));
+    }
+
+    return card;
+  }
+
+  // ---------- render right-panel item ----------
+  function renderToolItem(tool, sectionId, idx, childCount) {
+    const item = el('button', {
+      class: 'tool-item' + (idx === 0 ? ' active' : '') + (childCount ? ' has-children' : ''),
+      'data-tool-name': tool.name,
+      onclick: function () { activateTool(sectionId, tool.name); },
+    });
+    item.appendChild(logoEl(tool, 'tool-item-logo'));
+    const text = el('div', { class: 'tool-item-text' });
+    const name = el('div', { class: 'tool-item-name' }, [
+      document.createTextNode(tool.name),
+      tool.experienced ? el('span', { class: 'star', html: '&#9733;' }) : null,
+      tool.parentLabel ? el('span', { class: 'parent', html: escapeHtml(tool.parentLabel) }) : null,
+    ]);
+    text.appendChild(name);
+    if (tool.tagline) text.appendChild(el('div', { class: 'tool-item-tagline', html: escapeHtml(tool.tagline) }));
+    if (childCount) text.appendChild(el('div', { class: 'tool-child-cue', html: childCount + (childCount === 1 ? ' tool inside' : ' tools inside') }));
+    item.appendChild(text);
+    return item;
+  }
+
+  function renderSubToolItem(tool, sectionId) {
+    const item = el('button', {
+      class: 'tool-subitem',
+      'data-tool-name': tool.name,
+      onclick: function () { activateTool(sectionId, tool.name); },
+    });
+    item.appendChild(logoEl(tool, 'tool-item-logo'));
+    item.appendChild(el('div', { class: 'tool-subitem-name' }, [
+      document.createTextNode(tool.name),
+      tool.parentLabel ? el('span', { class: 'parent', html: ' ' + escapeHtml(tool.parentLabel) }) : null,
+    ]));
+    return item;
+  }
+
+  // ---------- activate / swap ----------
+  function activateTool(sectionId, toolName) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    const cat = data.categories.find(function (c) { return 'cat-' + c.id === sectionId; });
+    if (!cat) return;
+    const tool = cat.tools.find(function (t) { return t.name === toolName; });
+    if (!tool) return;
+
+    const cardSlot = section.querySelector('.card-slot');
+    cardSlot.innerHTML = '';
+    cardSlot.appendChild(renderExpandedCard(tool, cat));
+
+    // update active state in tool list
+    section.querySelectorAll('.tool-item').forEach(function (it) {
+      const itemName = it.getAttribute('data-tool-name');
+      it.classList.toggle('active', itemName === parentToolName(tool));
+    });
+    section.querySelectorAll('.tool-subitem').forEach(function (it) {
+      it.classList.toggle('active', it.getAttribute('data-tool-name') === toolName);
+    });
+    section.querySelectorAll('.tool-item-group').forEach(function (group) {
+      group.classList.toggle('is-open', group.getAttribute('data-parent-name') === parentToolName(tool));
+    });
+  }
+
+  // ---------- build category sections ----------
+  function buildSection(cat) {
+    const section = el('section', {
+      id: 'cat-' + cat.id,
+      class: 'category-section',
+      style: '--cat-accent: ' + cat.accent + ';',
+    });
+    const container = el('div', { class: 'container' });
+    container.appendChild(el('div', {
+      class: 'section-eyebrow',
+      html: escapeHtml(cat.label) + ' <span class="count">' + toolCount(cat) + ' ' + (toolCount(cat) === 1 ? 'tool' : 'tools') + '</span>',
+    }));
+    container.appendChild(el('div', { class: 'section-title', html: escapeHtml(cat.label) }));
+    if (cat.subtitle) container.appendChild(el('div', { class: 'section-sub', html: escapeHtml(cat.subtitle) }));
+
+    const panel = el('div', { class: 'two-panel' });
+    const cardSlot = el('div', { class: 'card-slot' });
+    if (cat.tools.length) cardSlot.appendChild(renderExpandedCard(cat.tools[0], cat));
+    panel.appendChild(cardSlot);
+
+    const list = el('div', { class: 'tool-list' });
+    const topTools = cat.tools.filter(function (t) { return !t.childOf; });
+    topTools.forEach(function (t, i) {
+      const children = childTools(cat, t.name);
+      if (children.length) {
+        const group = el('div', {
+          class: 'tool-item-group' + (i === 0 ? ' is-open' : ''),
+          'data-parent-name': t.name,
+        });
+        group.appendChild(renderToolItem(t, 'cat-' + cat.id, i, children.length));
+        const subtools = el('div', { class: 'tool-subtools' });
+        children.forEach(function (child) { subtools.appendChild(renderSubToolItem(child, 'cat-' + cat.id)); });
+        group.appendChild(subtools);
+        list.appendChild(group);
+      } else {
+        list.appendChild(renderToolItem(t, 'cat-' + cat.id, i, 0));
+      }
+    });
+    panel.appendChild(list);
+
+    container.appendChild(panel);
+    section.appendChild(container);
+    return section;
+  }
+
+  // ---------- watch list ----------
+  function buildWatchlist(items) {
+    const section = el('section', { id: 'watchlist', class: 'category-section', style: '--cat-accent: ' + data.watchlistAccent + ';' });
+    const container = el('div', { class: 'container' });
+    container.appendChild(el('div', { class: 'section-eyebrow', html: 'Watch List <span class="count">' + items.length + ' to track</span>' }));
+    container.appendChild(el('div', { class: 'section-title', html: 'Watch List' }));
+    container.appendChild(el('div', { class: 'section-sub', html: 'Tools and emerging practices that are worth tracking but are not yet core to the day-to-day stack.' }));
+    const grid = el('div', { class: 'watchlist-grid' });
+    items.forEach(function (w) {
+      const card = el('div', { class: 'watch-card' });
+      const head = el('div', { class: 'watch-card-head' }, [logoEl(w, 'watch-card-logo')]);
+      head.appendChild(el('div', null, [
+        el('div', { class: 'watch-card-name', html: escapeHtml(w.name) }),
+        el('div', { class: 'watch-card-company', html: escapeHtml(w.company || '') }),
+      ]));
+      card.appendChild(head);
+      if (w.status) card.appendChild(el('div', { class: 'watch-card-status', html: escapeHtml(w.status) }));
+      const body = el('div', { class: 'watch-card-body' });
+      const watchBody = w.body || [];
+      if (watchBody.length) {
+        body.appendChild(el('p', { html: escapeHtml(firstSentence(watchBody[0], 185)), style: 'margin-bottom:10px;' }));
+        const extra = watchBody.slice(1).map(function (p) { return firstSentence(p, 185); });
+        if (extra.length) {
+          const extraWrap = el('div', null);
+          extra.forEach(function (p) { extraWrap.appendChild(el('p', { class: 'card-section-body', html: escapeHtml(p), style: 'margin:0;' })); });
+          body.appendChild(cardSection('Why it matters', extraWrap, { meta: sectionMeta('list', extra.length) }));
+        }
+      }
+      card.appendChild(body);
+      if (w.url) {
+        card.appendChild(el('div', { class: 'watch-card-link' }, [
+          el('a', { href: w.url, target: '_blank', rel: 'noopener noreferrer', html: w.linkLabel || 'Learn more &rarr;' }),
+        ]));
+      }
+      grid.appendChild(card);
+    });
+    container.appendChild(grid);
+    section.appendChild(container);
+    return section;
+  }
+
+  // ---------- nav ----------
+  function buildNav() {
+    const nav = document.querySelector('.nav-links');
+    data.categories.forEach(function (cat) {
+      const a = el('a', {
+        class: 'nav-link',
+        href: '#cat-' + cat.id,
+        'data-target': 'cat-' + cat.id,
+      }, [document.createTextNode(cat.shortNav || cat.label)]);
+      nav.appendChild(a);
+    });
+    const wl = el('a', { class: 'nav-link', href: '#watchlist', 'data-target': 'watchlist' }, [document.createTextNode('Watch List')]);
+    nav.appendChild(wl);
+
+    // IntersectionObserver for active state
+    const targets = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+    const links = Array.prototype.slice.call(document.querySelectorAll('.nav-link[data-target]'));
+    const map = {};
+    links.forEach(function (l) { map[l.getAttribute('data-target')] = l; });
+    let activeId = null;
+    const obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.2) {
+          if (activeId === entry.target.id) return;
+          activeId = entry.target.id;
+          links.forEach(function (l) { l.classList.remove('active'); });
+          if (map[activeId]) {
+            map[activeId].classList.add('active');
+            // scroll the nav to bring active link into view
+            const navWrap = document.querySelector('.nav-links');
+            const link = map[activeId];
+            const offset = link.offsetLeft - navWrap.clientWidth / 2 + link.clientWidth / 2;
+            navWrap.scrollTo({ left: offset, behavior: 'smooth' });
+          }
+        }
+      });
+    }, { threshold: [0.2, 0.5], rootMargin: '-80px 0px -50% 0px' });
+    targets.forEach(function (t) { obs.observe(t); });
+  }
+
+  // ---------- ecosystem map ----------
+  function buildEcosystem() {
+    const wrap = document.querySelector('.ecosystem');
+    if (!wrap) return;
+    const layout = [
+      // [catId, span]
+      ['llms', 1], ['imgvid', 2],
+      ['allinone', 1], ['spatial', 1], ['audio', 1],
+      ['copy', 1], ['research', 1], ['workflow', 1],
+      ['design', 1], ['marketing', 1],
+    ];
+    layout.forEach(function (entry) {
+      const cat = data.categories.find(function (c) { return c.id === entry[0]; });
+      if (!cat) return;
+      const block = el('div', { class: 'eco-block' + (entry[1] > 1 ? ' span-' + entry[1] : ''), style: '--cat-accent:' + cat.accent + ';' });
+      block.appendChild(el('div', { class: 'eco-block-header', style: 'color:' + cat.accent + ';', html: escapeHtml(cat.label) }));
+      const pills = el('div', { class: 'eco-pills' });
+      cat.tools.forEach(function (t) {
+        if (t.crossref) return; // skip cross-ref entries on the map
+        if (t.childOf) return; // child tools appear inside their parent in the section view
+        const children = childTools(cat, t.name);
+        const pill = el('button', {
+          class: 'eco-pill' + (children.length ? ' eco-pill-parent' : ''),
+          title: t.name + (t.tagline ? ' - ' + t.tagline : ''),
+          onclick: function () {
+            const target = document.getElementById('cat-' + cat.id);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(function () { activateTool('cat-' + cat.id, t.name); }, 300);
+          },
+        }, [
+          logoEl(t, 'pill-logo'),
+          document.createTextNode(t.name),
+          t.experienced ? el('span', { class: 'star', html: '&#9733;' }) : null,
+          children.length ? el('span', { class: 'sub-count', html: '+' + children.length }) : null,
+        ]);
+        pills.appendChild(pill);
+      });
+      block.appendChild(pills);
+      wrap.appendChild(block);
+    });
+    // watchlist row
+    const wlBlock = el('div', { class: 'eco-block watchlist span-3' });
+    wlBlock.appendChild(el('div', { class: 'eco-block-header', style: 'color:' + data.watchlistAccent + ';', html: 'Watch List / Emerging' }));
+    const wlPills = el('div', { class: 'eco-pills' });
+    (data.watchlist || []).forEach(function (w) {
+      const pill = el('button', {
+        class: 'eco-pill',
+        title: w.name,
+        onclick: function () {
+          const target = document.getElementById('watchlist');
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        },
+      }, [
+        logoEl(w, 'pill-logo'),
+        document.createTextNode(w.name),
+      ]);
+      wlPills.appendChild(pill);
+    });
+    wlBlock.appendChild(wlPills);
+    wlBlock.appendChild(el('div', { class: 'eco-foot', html: '&#9733; = Direct hands-on experience' }));
+    wrap.appendChild(wlBlock);
+  }
+
+  // ---------- init ----------
+  function init() {
+    const main = document.getElementById('sections');
+    data.categories.forEach(function (cat) { main.appendChild(buildSection(cat)); });
+    if (data.watchlist && data.watchlist.length) main.appendChild(buildWatchlist(data.watchlist));
+    buildEcosystem();
+    buildNav();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<script>
+(function () {
+  const canvas = document.getElementById('particle-field');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const palette = [
+    [129, 140, 248],
+    [56, 189, 248],
+    [45, 212, 191],
+    [244, 114, 182],
+    [250, 204, 21],
+  ];
+  const pointer = { x: -9999, y: -9999, active: false };
+  let particles = [];
+  let w = 0;
+  let h = 0;
+  let dpr = 1;
+  let frame = 0;
+
+  function rand(min, max) {
+    return min + Math.random() * (max - min);
+  }
+
+  function sizeCanvas() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const target = Math.round(Math.min(92, Math.max(42, (w * h) / 14500)));
+    particles = Array.from({ length: target }, function (_, i) {
+      const color = palette[i % palette.length];
+      return {
+        x: rand(0, w),
+        y: rand(0, h),
+        vx: rand(-0.16, 0.16),
+        vy: rand(-0.12, 0.12),
+        r: rand(0.8, 2.1),
+        color,
+        phase: rand(0, Math.PI * 2),
+      };
+    });
+    draw(0, true);
+  }
+
+  function draw(time, still) {
+    frame = time || frame;
+    ctx.clearRect(0, 0, w, h);
+    const scrollDrift = (window.scrollY || 0) * 0.018;
+
+    particles.forEach(function (p) {
+      if (!still && !reduceMotion) {
+        const dx = p.x - pointer.x;
+        const dy = p.y - pointer.y;
+        const distSq = dx * dx + dy * dy;
+        if (pointer.active && distSq < 15000) {
+          const force = (1 - distSq / 15000) * 0.028;
+          p.vx += dx * force;
+          p.vy += dy * force;
+        }
+        p.x += p.vx + Math.cos(frame * 0.00035 + p.phase) * 0.13;
+        p.y += p.vy + Math.sin(frame * 0.00042 + p.phase) * 0.11;
+        p.vx *= 0.992;
+        p.vy *= 0.992;
+        if (p.x < -20) p.x = w + 20;
+        if (p.x > w + 20) p.x = -20;
+        if (p.y < -20) p.y = h + 20;
+        if (p.y > h + 20) p.y = -20;
+      }
+
+      const glow = 0.55 + Math.sin(frame * 0.001 + p.phase) * 0.18;
+      const y = p.y + Math.sin((scrollDrift + p.phase) * 0.6) * 8;
+      ctx.beginPath();
+      ctx.arc(p.x, y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + p.color.join(',') + ',' + (0.28 + glow * 0.22) + ')';
+      ctx.shadowBlur = 14;
+      ctx.shadowColor = 'rgba(' + p.color.join(',') + ',0.45)';
+      ctx.fill();
+    });
+
+    ctx.shadowBlur = 0;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 118) {
+          const alpha = (1 - dist / 118) * 0.15;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = 'rgba(148, 163, 184,' + alpha + ')';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+
+    if (!reduceMotion && !document.hidden) requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('pointermove', function (e) {
+    pointer.x = e.clientX;
+    pointer.y = e.clientY;
+    pointer.active = true;
+  }, { passive: true });
+  window.addEventListener('pointerleave', function () {
+    pointer.active = false;
+  });
+  window.addEventListener('resize', sizeCanvas);
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) return;
+    requestAnimationFrame(draw);
+  });
+
+  sizeCanvas();
+  if (!reduceMotion) requestAnimationFrame(draw);
+})();
+</script>
+
+</body>
+</html>
+
